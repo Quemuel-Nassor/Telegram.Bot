@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Telegram.Bot
+﻿namespace Telegram.Bot
 {
     public partial class App : Application
     {
