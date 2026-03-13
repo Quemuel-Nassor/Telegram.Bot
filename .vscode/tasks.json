@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build Debug (Android ARM32)",
+            "label": "Build Debug",
             "type": "shell",
             "command": "dotnet",
             "args": [
@@ -10,8 +10,7 @@
                 "-c",
                 "Debug",
                 "-f",
-                "net10.0-android",
-                "-p:RuntimeIdentifier=android-arm"
+                "net10.0-android"
             ],
             "problemMatcher": [
                 "$msCompile",
@@ -23,13 +22,11 @@
             },
             "presentation": {
                 "reveal": "always",
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
+                "panel": "shared"
             }
         },
         {
-            "label": "Build Release (Android ARM32)",
+            "label": "Build Release",
             "type": "shell",
             "command": "dotnet",
             "args": [
@@ -37,8 +34,7 @@
                 "-c",
                 "Release",
                 "-f",
-                "net10.0-android",
-                "-p:RuntimeIdentifier=android-arm"
+                "net10.0-android"
             ],
             "problemMatcher": [
                 "$msCompile",
@@ -47,9 +43,7 @@
             "group": "build",
             "presentation": {
                 "reveal": "always",
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
+                "panel": "shared"
             }
         },
         {
@@ -77,7 +71,6 @@
                 "Release",
                 "-f",
                 "net10.0-android",
-                "-p:RuntimeIdentifier=android-arm",
                 "-p:AndroidPackageFormat=apk"
             ],
             "problemMatcher": [
@@ -87,9 +80,7 @@
             "group": "build",
             "presentation": {
                 "reveal": "always",
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
+                "panel": "shared"
             }
         },
         {

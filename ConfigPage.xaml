@@ -14,8 +14,8 @@
                Placeholder="Insira seu token aqui"
                IsPassword="True"
                FontSize="14"
-               Padding="10"
-               ReturnType="Done"/>
+               ReturnType="Done"
+               Margin="0, 0, 0, 10"/>
         
         <Label Text="Obtém o token em: @BotFather no Telegram" 
                FontSize="12" 
