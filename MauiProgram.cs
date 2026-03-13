@@ -20,9 +20,10 @@ namespace Telegram.Bot
             // Configure Services
             builder.Services.AddHttpClient("TelegramClient", client =>
             {
-                client.BaseAddress = new Uri("https://api.telegram.org/");
-                client.Timeout = TimeSpan.FromSeconds(10);
-            }).SetHandlerLifetime(TimeSpan.FromMinutes(5));
+                client.BaseAddress = new Uri("https://api.telegram.org");
+                //client.Timeout = TimeSpan.FromSeconds(10);
+            });
+                //.SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
             builder.Services.AddScoped<ITelegramBotService, TelegramBotService>();
             builder.Services.AddScoped<GroupMessagesViewModel>();

@@ -20,9 +20,10 @@
 		<AndroidMinSdkVersion>30</AndroidMinSdkVersion>
 		<AndroidTargetSdkVersion>35</AndroidTargetSdkVersion>
 
-		<PublishTrimmed>true</PublishTrimmed>
-		<PublishReadyToRun>true</PublishReadyToRun>
-		<TrimMode>link</TrimMode>
+		<!-- Otimizações desabilitadas em Debug para evitar crash com trimming agressivo -->
+		<PublishTrimmed Condition="'$(Configuration)' == 'Release'">true</PublishTrimmed>
+		<PublishReadyToRun Condition="'$(Configuration)' == 'Release'">true</PublishReadyToRun>
+		<TrimMode Condition="'$(Configuration)' == 'Release'">link</TrimMode>
 	</PropertyGroup>
 
 	<ItemGroup>

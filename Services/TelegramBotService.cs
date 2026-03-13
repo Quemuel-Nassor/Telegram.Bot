@@ -20,7 +20,7 @@ namespace Telegram.Bot.Services
                 var client = _httpClientFactory.CreateClient("TelegramClient");
                 
                 // Endpoint: /bot{TOKEN}/getUpdates
-                var url = $"bot{apiToken}/getUpdates";
+                var url = $"/bot{apiToken}/getUpdates";
                 if (offset.HasValue)
                 {
                     url += $"?offset={offset}";

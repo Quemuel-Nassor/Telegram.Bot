@@ -12,14 +12,14 @@ namespace Telegram.Bot
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
             
             // Callback para voltar após salvar
-            _viewModel.OnSaved = async () => await Shell.Current.GoToAsync("..");
+            _viewModel.OnSaved = async () => await Shell.Current.GoToAsync("///main");
             
             BindingContext = _viewModel;
         }
 
         private async void OnBackClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync("///main");
         }
     }
 }

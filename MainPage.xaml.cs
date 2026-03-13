@@ -21,7 +21,7 @@ namespace Telegram.Bot
 
         private async void OnConfigClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("config");
+            await Shell.Current.GoToAsync("///config");
         }
     }
 }
