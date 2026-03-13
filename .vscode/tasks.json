@@ -1,0 +1,109 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Debug (Android ARM32)",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "-c",
+                "Debug",
+                "-f",
+                "net10.0-android",
+                "-p:RuntimeIdentifier=android-arm"
+            ],
+            "problemMatcher": [
+                "$msCompile",
+                "$msCompileVB"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Build Release (Android ARM32)",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "-c",
+                "Release",
+                "-f",
+                "net10.0-android",
+                "-p:RuntimeIdentifier=android-arm"
+            ],
+            "problemMatcher": [
+                "$msCompile",
+                "$msCompileVB"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "clean",
+                "-f",
+                "net10.0-android"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Publish APK (Release)",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "publish",
+                "-c",
+                "Release",
+                "-f",
+                "net10.0-android",
+                "-p:RuntimeIdentifier=android-arm",
+                "-p:AndroidPackageFormat=apk"
+            ],
+            "problemMatcher": [
+                "$msCompile",
+                "$msCompileVB"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Restore NuGet",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "restore"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ]
+}

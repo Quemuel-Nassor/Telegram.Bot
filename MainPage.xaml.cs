@@ -1,24 +1,27 @@
-﻿namespace Telegram.Bot
+﻿using Telegram.Bot.ViewModels;
+
+namespace Telegram.Bot
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        private readonly GroupMessagesViewModel _viewModel;
 
-        public MainPage()
+        public MainPage(GroupMessagesViewModel viewModel)
         {
             InitializeComponent();
+            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+            BindingContext = _viewModel;
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        protected override void OnAppearing()
         {
-            count++;
+            base.OnAppearing();
+            _viewModel.RefreshCommand.Execute(null);
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        private async void OnConfigClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("config");
         }
     }
 }

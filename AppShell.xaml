@@ -7,8 +7,12 @@
     Title="Telegram.Bot">
 
     <ShellContent
-        Title="Home"
+        Title="Mensagens"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="main" />
+
+    <Shell.Routes>
+        <Route Route="config" ContentTemplate="{DataTemplate local:ConfigPage}" />
+    </Shell.Routes>
 
 </Shell>
