@@ -53,7 +53,7 @@ namespace Telegram.Bot.ViewModels
         private async Task RefreshMessages()
         {
             var token = await SecureStorage.GetAsync("telegram_api_token");
-            
+
             if (string.IsNullOrEmpty(token))
             {
 #pragma warning disable CS0618
@@ -73,7 +73,7 @@ namespace Telegram.Bot.ViewModels
                 try
                 {
                     var messages = await _telegramService.GetGroupUpdatesAsync(token);
-                    
+
                     // Atualiza a UI na thread principal
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
@@ -93,9 +93,9 @@ namespace Telegram.Bot.ViewModels
                         "Erro",
                         $"Erro ao buscar mensagens: {ex.Message}",
                         "OK");
-                    
+
 #pragma warning restore CS0618
-                        IsRefreshing = false;
+                    IsRefreshing = false;
                 }
             });
         }

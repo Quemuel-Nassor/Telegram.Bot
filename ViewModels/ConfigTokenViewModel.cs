@@ -47,7 +47,7 @@ namespace Telegram.Bot.ViewModels
 #pragma warning disable CS0618
                 _ = Shell.Current.DisplayAlert("Sucesso", "Token salvo com segurança", "OK");
 #pragma warning restore CS0618
-                
+
                 if (OnSaved != null)
                     await OnSaved.Invoke();
             }

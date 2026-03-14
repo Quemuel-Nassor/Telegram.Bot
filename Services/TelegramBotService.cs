@@ -1,4 +1,3 @@
-using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -23,7 +22,7 @@ namespace Telegram.Bot.Services
             try
             {
                 var client = _httpClientFactory.CreateClient("TelegramClient");
-                
+
                 var url = $"/bot{apiToken}/getUpdates";
                 if (offset.HasValue)
                 {
@@ -33,10 +32,10 @@ namespace Telegram.Bot.Services
                 // ResponseHeadersRead evita bufferziar toda resposta na memória
                 using var httpResponse = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
                 httpResponse.EnsureSuccessStatusCode();
-                
+
                 await using var contentStream = await httpResponse.Content.ReadAsStreamAsync();
                 var response = await JsonSerializer.DeserializeAsync<TelegramUpdatesResponse>(contentStream, JsonOptions);
-                
+
                 if (response?.Ok == true && response.Result != null && response.Result.Count > 0)
                 {
                     return ParseUpdatesToMessages(response.Result);
