@@ -4,7 +4,7 @@
              x:Class="Telegram.Bot.MainPage"
              Title="Mensagens do Grupo">
 
-    <Grid Padding="16,0">
+    <Grid Style="{StaticResource ContentGridStyle}">
         <RefreshView Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
 
@@ -13,26 +13,23 @@
                             EmptyView="Nenhuma mensagem ainda">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="8" Margin="0,8">
+                        <Border Style="{StaticResource MessageCardStyle}">
                             <Grid RowDefinitions="*,*" ColumnDefinitions="*, Auto" ColumnSpacing="8" RowSpacing="4">
                                 <Label Text="{Binding SenderName, StringFormat='@{0}'}" 
-                                       FontAttributes="Bold" 
-                                       FontSize="13" 
-                                       TextColor="#FFF"
+                                       Style="{StaticResource HeaderLabelStyle}"
                                        LineBreakMode="TailTruncation"
                                        Grid.Column="0"/>
 
                                 <Label Text="{Binding Date, StringFormat='{0:dd/mm/yyyy - HH:mm}'}" 
-                                       FontSize="11" 
-                                       TextColor="#999999"
+                                       Style="{StaticResource SecondaryLabelStyle}"
                                        Grid.Column="1" 
                                        HorizontalTextAlignment="End"/>
 
                                 <Label Text="{Binding Text}" 
-                                   FontSize="13" 
-                                   Grid.Row="1"
-                                   Grid.ColumnSpan="2" 
-                                   LineBreakMode="WordWrap"/>
+                                       FontSize="13"
+                                       Grid.Row="1"
+                                       Grid.ColumnSpan="2" 
+                                       LineBreakMode="WordWrap"/>
                             </Grid>
                         </Border>
                     </DataTemplate>

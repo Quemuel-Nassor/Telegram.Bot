@@ -5,10 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Telegram.Bot"
     Title="Telegram.Bot"
-    TabBarBackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1F1F1F}"
-    TabBarForegroundColor="{AppThemeBinding Light=#512BD4, Dark=#B4A7FF}"
-    TabBarUnselectedColor="{AppThemeBinding Light=#999999, Dark=#666666}"
-    TabBarIsVisible="True">
+    TabBarIsVisible="True"
+    Shell.TabBarHeight="60"
+    Padding="0,0,0,60">
 
     <TabBar>
         <ShellContent

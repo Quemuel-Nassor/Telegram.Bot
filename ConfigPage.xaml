@@ -4,28 +4,25 @@
              x:Class="Telegram.Bot.ConfigPage"
              Title="Configurações">
 
-    <Grid RowDefinitions="auto,auto,auto,auto" 
-          RowSpacing="8"
-          Padding="16,0">
+    <Grid Style="{StaticResource ConfigFormGridStyle}" RowDefinitions="auto,auto,auto,auto">
         <Label Text="Token da API do Telegram" 
-               FontAttributes="Bold" 
-               FontSize="16"/>
+               Style="{StaticResource TitleLabelStyle}"/>
 
-        <Entry Grid.Row="1" Text="{Binding Token, Mode=TwoWay}" 
+        <Entry Grid.Row="1" 
+               Text="{Binding Token, Mode=TwoWay}" 
                Placeholder="Insira seu token aqui"
                IsPassword="True"
-               FontSize="14"
-               ReturnType="Done"/>
+               ReturnType="Done"
+               Margin="0,8"/>
 
-        <Label Grid.Row="2" Text="Obtém o token em: @BotFather no Telegram" 
-               FontSize="12" 
-               TextColor="#666666"/>
+        <Label Grid.Row="2" 
+               Text="Obtém o token em: @BotFather no Telegram" 
+               Style="{StaticResource HelperTextLabelStyle}"/>
 
-        <Button Grid.Row="3" Text="Salvar Token" 
+        <Button Grid.Row="3" 
+                Text="Salvar Token" 
                 Command="{Binding SaveCommand}"
-                BackgroundColor="#512BD4"
-                TextColor="White"
-                CornerRadius="4"/>
+                Margin="0,16,0,0"/>
     </Grid>
 
 </ContentPage>
