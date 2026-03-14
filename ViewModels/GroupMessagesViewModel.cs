@@ -90,6 +90,9 @@ namespace Telegram.Bot.ViewModels
                     $"Erro ao buscar mensagens: {ex.Message}",
                     "OK");
 #pragma warning restore CS0618
+            }
+            finally
+            {
                 IsRefreshing = false;
             }
         }
