@@ -97,6 +97,8 @@
     <Style TargetType="Page" ApplyToDerivedTypes="True">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+        <Setter Property="NavigationPage.BarBackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="NavigationPage.BarTextColor" Value="{StaticResource White}" />
     </Style>
 
     <!-- Content Grid Style (Standard Page Padding) -->
@@ -114,9 +116,9 @@
 
     <!-- Shell Global -->
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
-        <Setter Property="Shell.BackgroundColor" Value="{StaticResource Surface}" />
-        <Setter Property="Shell.ForegroundColor" Value="{StaticResource OnSurface}" />
-        <Setter Property="Shell.TitleColor" Value="{StaticResource OnSurface}" />
+        <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="Shell.ForegroundColor" Value="{StaticResource White}" />
+        <Setter Property="Shell.TitleColor" Value="{StaticResource White}" />
         <Setter Property="Shell.DisabledColor" Value="{StaticResource Gray600}" />
         <Setter Property="Shell.UnselectedColor" Value="{StaticResource Gray400}" />
         <Setter Property="Shell.NavBarHasShadow" Value="False" />
