@@ -4,16 +4,23 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Telegram.Bot"
-    Title="Telegram.Bot">
+    Title="Telegram.Bot"
+    TabBarBackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#1F1F1F}"
+    TabBarForegroundColor="{AppThemeBinding Light=#000, Dark=#FFF}"
+    TabBarUnselectedColor="{AppThemeBinding Light=#999, Dark=#666}">
 
-    <ShellContent
-        Title="Mensagens"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="main" />
+    <TabBar>
+        <ShellContent
+            Title="Mensagens"
+            Icon="message_icon.png"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="messages" />
 
-    <ShellContent
-        Title="Configuração"
-        ContentTemplate="{DataTemplate local:ConfigPage}"
-        Route="config" />
+        <ShellContent
+            Title="Configuração"
+            Icon="settings_icon.png"
+            ContentTemplate="{DataTemplate local:ConfigPage}"
+            Route="settings" />
+    </TabBar>
 
 </Shell>
