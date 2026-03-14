@@ -7,6 +7,11 @@ namespace Telegram.Bot.Services
     public class TelegramBotService : ITelegramBotService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private static readonly JsonSerializerOptions JsonOptions = new()
+        {
+            PropertyNameCaseInsensitive = true,
+            DefaultBufferSize = 128, // ARM32 limitado, buffer pequeno
+        };
 
         public TelegramBotService(IHttpClientFactory httpClientFactory)
         {
@@ -19,15 +24,18 @@ namespace Telegram.Bot.Services
             {
                 var client = _httpClientFactory.CreateClient("TelegramClient");
                 
-                // Endpoint: /bot{TOKEN}/getUpdates
                 var url = $"/bot{apiToken}/getUpdates";
                 if (offset.HasValue)
                 {
                     url += $"?offset={offset}";
                 }
 
-                var response = await client.GetFromJsonAsync<TelegramUpdatesResponse>(url, 
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                // ResponseHeadersRead evita bufferziar toda resposta na memória
+                using var httpResponse = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+                httpResponse.EnsureSuccessStatusCode();
+                
+                await using var contentStream = await httpResponse.Content.ReadAsStreamAsync();
+                var response = await JsonSerializer.DeserializeAsync<TelegramUpdatesResponse>(contentStream, JsonOptions);
                 
                 if (response?.Ok == true && response.Result != null && response.Result.Count > 0)
                 {
@@ -36,10 +44,20 @@ namespace Telegram.Bot.Services
 
                 return new List<GroupMessage>();
             }
+            catch (TaskCanceledException ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Timeout ao buscar atualizações: {ex.Message}");
+                throw;
+            }
+            catch (HttpRequestException ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro de conexão: {ex.Message}");
+                throw;
+            }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Erro ao buscar atualizações: {ex.Message}");
-                return new List<GroupMessage>();
+                System.Diagnostics.Debug.WriteLine($"Erro ao buscar atualizações: {ex.GetType().Name} - {ex.Message}");
+                throw;
             }
         }
 
