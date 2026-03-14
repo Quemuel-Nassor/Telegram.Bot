@@ -4,9 +4,8 @@
              x:Class="Telegram.Bot.MainPage"
              Title="Mensagens do Grupo">
 
-    <Grid Padding="0">
-        <RefreshView Grid.Row="1"
-                     Command="{Binding RefreshCommand}"
+    <Grid Padding="16,0">
+        <RefreshView Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
 
             <CollectionView ItemsSource="{Binding Messages}" 
@@ -14,7 +13,7 @@
                             EmptyView="Nenhuma mensagem ainda">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="8" Margin="16,8">
+                        <Border Padding="8" Margin="0,8">
                             <Grid RowDefinitions="*,*" ColumnDefinitions="*, Auto" ColumnSpacing="8" RowSpacing="4">
                                 <Label Text="{Binding SenderName, StringFormat='@{0}'}" 
                                        FontAttributes="Bold" 
@@ -29,12 +28,11 @@
                                        Grid.Column="1" 
                                        HorizontalTextAlignment="End"/>
 
-                                <Editor Text="{Binding Text}" 
+                                <Label Text="{Binding Text}" 
                                    FontSize="13" 
                                    Grid.Row="1"
-                                   Grid.ColumnSpan="2"
-                                   IsReadOnly="True"
-                                   AutoSize="TextChanges"/>
+                                   Grid.ColumnSpan="2" 
+                                   LineBreakMode="WordWrap"/>
                             </Grid>
                         </Border>
                     </DataTemplate>
