@@ -21,9 +21,17 @@ namespace Telegram.Bot
             builder.Services.AddHttpClient("TelegramClient", client =>
             {
                 client.BaseAddress = new Uri("https://api.telegram.org");
-                //client.Timeout = TimeSpan.FromSeconds(10);
+                client.Timeout = TimeSpan.FromMinutes(5); // ARM32 é lento, precisa timeout maior
+            })
+            .SetHandlerLifetime(TimeSpan.FromMinutes(6)); // Pool de conexões
+
+            // Background Worker para tarefas pesadas fora da UI thread
+            builder.Services.AddSingleton<IBackgroundWorker>(sp =>
+            {
+                var worker = new BackgroundWorkerService();
+                worker.Start();
+                return worker;
             });
-                //.SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
             builder.Services.AddScoped<ITelegramBotService, TelegramBotService>();
             builder.Services.AddScoped<GroupMessagesViewModel>();
