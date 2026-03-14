@@ -4,64 +4,39 @@
              x:Class="Telegram.Bot.MainPage"
              Title="Mensagens do Grupo">
 
-    <Grid RowDefinitions="Auto, *" Padding="0">
-        <StackLayout Padding="10" Spacing="10" Orientation="Horizontal" Grid.Row="0">
-            <Button Text="⚙️ Configurar" 
-                    Clicked="OnConfigClicked"
-                    HorizontalOptions="Fill"
-                    BackgroundColor="#512BD4"
-                    TextColor="White"
-                    FontSize="12"
-                    Padding="5"
-                    CornerRadius="4"/>
-        </StackLayout>
-
+    <Grid Padding="0">
         <RefreshView Grid.Row="1"
                      Command="{Binding RefreshCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
-            
+
             <CollectionView ItemsSource="{Binding Messages}" 
                             SelectionMode="None"
                             EmptyView="Nenhuma mensagem ainda">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="12, 8" Spacing="4">
-                            <BoxView BackgroundColor="#E8E8E8" HeightRequest="0.5"/>
-                            
-                            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="8">
-                                <Label Text="{Binding SenderName}" 
+                        <Border Padding="8" Margin="16,8">
+                            <Grid RowDefinitions="*,*" ColumnDefinitions="*, Auto" ColumnSpacing="8" RowSpacing="4">
+                                <Label Text="{Binding SenderName, StringFormat='@{0}'}" 
                                        FontAttributes="Bold" 
                                        FontSize="13" 
-                                       TextColor="#212121"
+                                       TextColor="#FFF"
                                        LineBreakMode="TailTruncation"
                                        Grid.Column="0"/>
-                                
-                                <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}" 
+
+                                <Label Text="{Binding Date, StringFormat='{0:dd/mm/yyyy - HH:mm}'}" 
                                        FontSize="11" 
                                        TextColor="#999999"
                                        Grid.Column="1" 
                                        HorizontalTextAlignment="End"/>
-                            </Grid>
-                            
-                            <Label Text="{Binding SenderUsername, StringFormat='@{0}'}" 
-                                   FontSize="11" 
-                                   TextColor="#666666"
-                                   Margin="0, -2, 0, 0"
-                                   LineBreakMode="TailTruncation"/>
-                            
-                            <Label Text="{Binding Text}" 
+
+                                <Editor Text="{Binding Text}" 
                                    FontSize="13" 
-                                   TextColor="#1F1F1F"
-                                   LineBreakMode="WordWrap" 
-                                   Margin="0, 6, 0, 0"/>
-                            
-                            <Label Text="{Binding GroupName, StringFormat='Grupo: {0}'}" 
-                                   FontSize="10" 
-                                   TextColor="#888888" 
-                                   Margin="0, 6, 0, 0"
-                                   FontAttributes="Italic"
-                                   LineBreakMode="TailTruncation"/>
-                        </StackLayout>
+                                   Grid.Row="1"
+                                   Grid.ColumnSpan="2"
+                                   IsReadOnly="True"
+                                   AutoSize="TextChanges"/>
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

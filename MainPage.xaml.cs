@@ -12,16 +12,5 @@ namespace Telegram.Bot
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
             BindingContext = _viewModel;
         }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            _viewModel.RefreshCommand.Execute(null);
-        }
-
-        private async void OnConfigClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync("///config");
-        }
     }
 }
