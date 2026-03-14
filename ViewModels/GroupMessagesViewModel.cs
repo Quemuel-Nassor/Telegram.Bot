@@ -8,6 +8,7 @@ namespace Telegram.Bot.ViewModels
     public class GroupMessagesViewModel : INotifyPropertyChanged
     {
         private readonly ITelegramBotService _telegramService;
+        private readonly IBackgroundWorker _backgroundWorker;
         private bool _isRefreshing;
         private ObservableCollection<GroupMessage> _messages;
 
@@ -41,9 +42,10 @@ namespace Telegram.Bot.ViewModels
 
         public ICommand RefreshCommand { get; }
 
-        public GroupMessagesViewModel(ITelegramBotService telegramService)
+        public GroupMessagesViewModel(ITelegramBotService telegramService, IBackgroundWorker backgroundWorker)
         {
             _telegramService = telegramService ?? throw new ArgumentNullException(nameof(telegramService));
+            _backgroundWorker = backgroundWorker ?? throw new ArgumentNullException(nameof(backgroundWorker));
             _messages = new ObservableCollection<GroupMessage>();
             RefreshCommand = new AsyncCommand(RefreshMessages);
         }
@@ -66,8 +68,19 @@ namespace Telegram.Bot.ViewModels
                     return;
                 }
 
-                var messages = await _telegramService.GetGroupUpdatesAsync(token);
-                Messages = new ObservableCollection<GroupMessage>(messages);
+                // Delega a tarefa pesada para o background worker
+                await _backgroundWorker.EnqueueAsync(async () =>
+                {
+                    var messages = await _telegramService.GetGroupUpdatesAsync(token);
+                    
+                    // Atualiza a UI na thread principal
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        Messages.Clear();
+                        Messages = new ObservableCollection<GroupMessage>(messages);
+                        IsRefreshing = false;
+                    });
+                });
             }
             catch (Exception ex)
             {
@@ -77,9 +90,6 @@ namespace Telegram.Bot.ViewModels
                     $"Erro ao buscar mensagens: {ex.Message}",
                     "OK");
 #pragma warning restore CS0618
-            }
-            finally
-            {
                 IsRefreshing = false;
             }
         }
