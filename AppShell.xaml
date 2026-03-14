@@ -5,9 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Telegram.Bot"
     Title="Telegram.Bot"
-    TabBarIsVisible="True"
-    Shell.TabBarHeight="60"
-    Padding="0,0,0,60">
+    TabBarIsVisible="True">
 
     <TabBar>
         <ShellContent
