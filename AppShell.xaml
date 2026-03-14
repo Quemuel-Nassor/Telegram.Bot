@@ -5,20 +5,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Telegram.Bot"
     Title="Telegram.Bot"
-    TabBarBackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#1F1F1F}"
-    TabBarForegroundColor="{AppThemeBinding Light=#000, Dark=#FFF}"
-    TabBarUnselectedColor="{AppThemeBinding Light=#999, Dark=#666}">
+    TabBarBackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1F1F1F}"
+    TabBarForegroundColor="{AppThemeBinding Light=#512BD4, Dark=#B4A7FF}"
+    TabBarUnselectedColor="{AppThemeBinding Light=#999999, Dark=#666666}"
+    TabBarIsVisible="True">
 
     <TabBar>
         <ShellContent
             Title="Mensagens"
-            Icon="message_icon.png"
             ContentTemplate="{DataTemplate local:MainPage}"
             Route="messages" />
 
         <ShellContent
             Title="Configuração"
-            Icon="settings_icon.png"
             ContentTemplate="{DataTemplate local:ConfigPage}"
             Route="settings" />
     </TabBar>
