@@ -52,24 +52,25 @@ namespace Telegram.Bot.ViewModels
 
         private async Task RefreshMessages()
         {
-            IsRefreshing = true;
-            try
+            var token = await SecureStorage.GetAsync("telegram_api_token");
+            
+            if (string.IsNullOrEmpty(token))
             {
-                var token = await SecureStorage.GetAsync("telegram_api_token");
-                
-                if (string.IsNullOrEmpty(token))
-                {
 #pragma warning disable CS0618
-                    _ = Shell.Current.DisplayAlert(
-                        "Aviso",
-                        "Configure o token da API primeiro",
-                        "OK");
+                _ = Shell.Current.DisplayAlert(
+                    "Aviso",
+                    "Configure o token da API primeiro",
+                    "OK");
 #pragma warning restore CS0618
-                    return;
-                }
+                return;
+            }
 
-                // Delega a tarefa pesada para o background worker
-                await _backgroundWorker.EnqueueAsync(async () =>
+            IsRefreshing = true;
+
+            // Delega a tarefa pesada para o background worker
+            await _backgroundWorker.EnqueueAsync(async () =>
+            {
+                try
                 {
                     var messages = await _telegramService.GetGroupUpdatesAsync(token);
                     
@@ -77,24 +78,26 @@ namespace Telegram.Bot.ViewModels
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
                         Messages.Clear();
-                        Messages = new ObservableCollection<GroupMessage>(messages);
+                        foreach (var msg in messages)
+                        {
+                            Messages.Add(msg);
+                        }
+
                         IsRefreshing = false;
                     });
-                });
-            }
-            catch (Exception ex)
-            {
+                }
+                catch (Exception ex)
+                {
 #pragma warning disable CS0618
-                _ = Shell.Current.DisplayAlert(
-                    "Erro",
-                    $"Erro ao buscar mensagens: {ex.Message}",
-                    "OK");
+                    _ = Shell.Current.DisplayAlert(
+                        "Erro",
+                        $"Erro ao buscar mensagens: {ex.Message}",
+                        "OK");
+                    
 #pragma warning restore CS0618
-            }
-            finally
-            {
-                IsRefreshing = false;
-            }
+                        IsRefreshing = false;
+                }
+            });
         }
 
         protected void OnPropertyChanged(string propertyName)
