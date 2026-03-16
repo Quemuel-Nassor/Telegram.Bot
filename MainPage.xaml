@@ -16,7 +16,21 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Style="{StaticResource MessageCardStyle}">
-                            <Grid RowDefinitions="*,*" ColumnDefinitions="*, Auto" ColumnSpacing="8" RowSpacing="4">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Transparent"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Transparent"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid RowDefinitions="*,*" ColumnDefinitions="*, Auto" ColumnSpacing="8" RowSpacing="4" BackgroundColor="Transparent">
                                 <Label Text="{Binding SenderName, StringFormat='@{0}'}" 
                                        Style="{StaticResource HeaderLabelStyle}"
                                        LineBreakMode="TailTruncation"
