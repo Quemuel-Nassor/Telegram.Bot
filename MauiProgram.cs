@@ -17,7 +17,22 @@ namespace Telegram.Bot
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            // Configure Services
+            // Configure Services - HttpClient otimizado para ARM32 com 2GB RAM
+            builder.Services.ConfigureHttpClientDefaults(http =>
+            {
+                http.ConfigurePrimaryHttpMessageHandler(() =>
+                {
+                    var handler = new HttpClientHandler
+                    {
+                        MaxConnectionsPerServer = 1,                                 // ARM32: apenas 1 conexão simultânea
+                        AllowAutoRedirect = false,                                   // Evita requisições extras
+                        UseProxy = false,                                            // Sem proxy detection overhead
+                        AutomaticDecompression = System.Net.DecompressionMethods.None // Sem decompress overhead
+                    };
+                    return handler;
+                });
+            });
+
             builder.Services.AddHttpClient("TelegramClient", client =>
             {
                 client.BaseAddress = new Uri("https://api.telegram.org");
