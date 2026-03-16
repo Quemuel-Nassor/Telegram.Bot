@@ -9,7 +9,9 @@
                      IsRefreshing="{Binding IsRefreshing}">
 
             <CollectionView ItemsSource="{Binding Messages}" 
-                            SelectionMode="None"
+                            SelectionMode="Single"
+                            SelectionChangedCommand="{Binding ShowContextMenuCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}"
                             EmptyView="Nenhuma mensagem ainda">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -22,13 +24,14 @@
 
                                 <Label Text="{Binding Date, StringFormat='{0:dd/mm/yyyy - HH:mm}'}" 
                                        Style="{StaticResource SecondaryLabelStyle}"
-                                       Grid.Column="1" 
+                                       Grid.Column="1"
                                        HorizontalTextAlignment="End"/>
 
                                 <Label Text="{Binding Text}" 
+                                       TextColor="{StaticResource OnSurface}"
                                        FontSize="13"
                                        Grid.Row="1"
-                                       Grid.ColumnSpan="2" 
+                                       Grid.ColumnSpan="2"
                                        LineBreakMode="WordWrap"/>
                             </Grid>
                         </Border>

@@ -41,6 +41,7 @@ namespace Telegram.Bot.ViewModels
         }
 
         public ICommand RefreshCommand { get; }
+        public ICommand ShowContextMenuCommand { get; }
 
         public GroupMessagesViewModel(ITelegramBotService telegramService, IBackgroundWorker backgroundWorker)
         {
@@ -48,6 +49,7 @@ namespace Telegram.Bot.ViewModels
             _backgroundWorker = backgroundWorker ?? throw new ArgumentNullException(nameof(backgroundWorker));
             _messages = new ObservableCollection<GroupMessage>();
             RefreshCommand = new AsyncCommand(RefreshMessages);
+            ShowContextMenuCommand = new AsyncCommand<GroupMessage?>(ShowContextMenu);
         }
 
         private async Task RefreshMessages()
@@ -98,6 +100,14 @@ namespace Telegram.Bot.ViewModels
                     IsRefreshing = false;
                 }
             });
+        }
+
+        private async Task ShowContextMenu(GroupMessage? message)
+        {
+            if (message != null && !string.IsNullOrEmpty(message.Text))
+            {
+                await Clipboard.Default.SetTextAsync(message.Text);
+            }
         }
 
         protected void OnPropertyChanged(string propertyName)
