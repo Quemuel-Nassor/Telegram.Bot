@@ -24,10 +24,10 @@ namespace Telegram.Bot
                 {
                     var handler = new HttpClientHandler
                     {
-                        MaxConnectionsPerServer = 1,                                 // ARM32: apenas 1 conexão simultânea
-                        AllowAutoRedirect = false,                                   // Evita requisições extras
-                        UseProxy = false,                                            // Sem proxy detection overhead
-                        AutomaticDecompression = System.Net.DecompressionMethods.None // Sem decompress overhead
+                        MaxConnectionsPerServer = 2,  // ✅ CORRIGIDO: padrão .NET
+                        AllowAutoRedirect = false,
+                        UseProxy = false,
+                        AutomaticDecompression = System.Net.DecompressionMethods.None
                     };
                     return handler;
                 });
@@ -36,7 +36,8 @@ namespace Telegram.Bot
             builder.Services.AddHttpClient("TelegramClient", client =>
             {
                 client.BaseAddress = new Uri("https://api.telegram.org");
-                client.Timeout = TimeSpan.FromSeconds(120); // 2 min para mobile ARM32
+                client.Timeout = TimeSpan.FromSeconds(30); // ✅ CORRIGIDO: 30s para mobile
+                client.DefaultRequestHeaders.Add("User-Agent", "Telegram.Bot/1.0");
             });
 
             // Background Worker para tarefas pesadas fora da UI thread
