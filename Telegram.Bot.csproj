@@ -20,6 +20,15 @@
 		<AndroidMinSdkVersion>30</AndroidMinSdkVersion>
 		<AndroidTargetSdkVersion>35</AndroidTargetSdkVersion>
 
+		<!-- Otimizações para ARM32 com baixa memória -->
+		<PublishTrimmed Condition="'$(Configuration)' == 'Release'">true</PublishTrimmed>
+		<TrimMode Condition="'$(Configuration)' == 'Release'">partial</TrimMode>
+		<PublishReadyToRun Condition="'$(Configuration)' == 'Release'">true</PublishReadyToRun>
+		<TieredCompilation>false</TieredCompilation>
+		<TieredCompilationQuickJit>false</TieredCompilationQuickJit>
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
+
 	</PropertyGroup>
 
 	<ItemGroup>
