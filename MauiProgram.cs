@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Telegram.Bot.Services;
 using Telegram.Bot.ViewModels;
-using Xamarin.Android.Net;
+using Xamarin.Android.Net;  // ✅ AndroidMessageHandler
 
 namespace Telegram.Bot
 {
@@ -39,7 +39,7 @@ namespace Telegram.Bot
             builder.Services.AddHttpClient("TelegramClient", client =>
             {
                 client.BaseAddress = new Uri("https://api.telegram.org");
-                client.Timeout = TimeSpan.FromSeconds(120);
+                client.Timeout = TimeSpan.FromSeconds(120);  // ✅ Necessário para WiFi fraco
                 client.DefaultRequestHeaders.Add("User-Agent", "Telegram.Bot/1.0");
             }).ConfigurePrimaryHttpMessageHandler(() =>
             {
@@ -47,8 +47,8 @@ namespace Telegram.Bot
                 return new AndroidMessageHandler
                 {
                     // OkHttp é excelente em reaproveitar conexões automaticamente
-                    ConnectTimeout = TimeSpan.FromSeconds(30),
-                    ReadTimeout = TimeSpan.FromSeconds(30)
+                    ConnectTimeout = TimeSpan.FromSeconds(120),  // ✅ CORRIGIDO: Era 30s (muito curto)
+                    ReadTimeout = TimeSpan.FromSeconds(120)      // ✅ CORRIGIDO: Era 30s (muito curto)
                 };
             });
 
