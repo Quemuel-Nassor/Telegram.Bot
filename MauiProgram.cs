@@ -22,9 +22,11 @@ namespace Telegram.Bot
             {
                 http.ConfigurePrimaryHttpMessageHandler(() =>
                 {
+                    // HttpClientHandler é mais estável em Android
+                    // Keep-Alive é automático em HttpClient (.NET 10)
                     var handler = new HttpClientHandler
                     {
-                        MaxConnectionsPerServer = 2,  // ✅ CORRIGIDO: padrão .NET
+                        MaxConnectionsPerServer = 4,  // ✅ Permite pool de 4 conexões
                         AllowAutoRedirect = false,
                         UseProxy = false,
                         AutomaticDecompression = System.Net.DecompressionMethods.None
@@ -36,7 +38,7 @@ namespace Telegram.Bot
             builder.Services.AddHttpClient("TelegramClient", client =>
             {
                 client.BaseAddress = new Uri("https://api.telegram.org");
-                client.Timeout = TimeSpan.FromSeconds(30); // ✅ CORRIGIDO: 30s para mobile
+                client.Timeout = TimeSpan.FromSeconds(120);
                 client.DefaultRequestHeaders.Add("User-Agent", "Telegram.Bot/1.0");
             });
 
