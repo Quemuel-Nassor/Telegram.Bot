@@ -24,14 +24,12 @@ namespace Telegram.Bot.Services
             // Inicia thread de processamento em background
             _processingTask = ProcessTasksAsync(_cts.Token);
 
-            System.Diagnostics.Debug.WriteLine("[BackgroundWorker] Iniciado");
         }
 
         public async Task EnqueueAsync(Func<Task> task)
         {
             if (!_isRunning)
             {
-                System.Diagnostics.Debug.WriteLine("[BackgroundWorker] Não está rodando, enfileirando fallará");
                 // Se não estiver rodando, apenas executa na thread atual
                 await task();
                 return;
@@ -43,7 +41,6 @@ namespace Telegram.Bot.Services
             }
             catch (ChannelClosedException ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[BackgroundWorker] Canal fechado: {ex.Message}");
                 await task(); // Fallback: executa na thread atual
             }
         }
@@ -81,19 +78,15 @@ namespace Telegram.Bot.Services
                 {
                     try
                     {
-                        System.Diagnostics.Debug.WriteLine("[BackgroundWorker] Processando tarefa...");
                         await task();
-                        System.Diagnostics.Debug.WriteLine("[BackgroundWorker] Tarefa concluída");
                     }
                     catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[BackgroundWorker] Erro ao processar tarefa: {ex.Message}");
                     }
                 }
             }
             catch (OperationCanceledException)
             {
-                System.Diagnostics.Debug.WriteLine("[BackgroundWorker] Processamento cancelado");
             }
         }
     }
