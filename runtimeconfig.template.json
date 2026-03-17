@@ -2,7 +2,7 @@
   "runtimeOptions": {
     "configProperties": {
       "System.GC.Server": false,
-      "System.GC.Concurrent": true,
+      "System.GC.Concurrent": false,
       "System.GC.ConserveMemory": 6,
       "System.GC.HeapHardLimit": 268435456,
       "System.GC.RetainVM": false,
