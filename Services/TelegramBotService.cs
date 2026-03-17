@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -14,6 +15,12 @@ namespace Telegram.Bot.Services
 
         public async Task<List<GroupMessage>> GetGroupUpdatesAsync(string apiToken, long? offset = null)
         {
+            var globalStart = Stopwatch.GetTimestamp();
+            long t_getasync_start = 0, t_getasync_end = 0;
+            long t_stream_start = 0, t_stream_end = 0;
+            long t_json_start = 0, t_json_end = 0;
+            long t_parse_start = 0, t_parse_end = 0;
+            
             try
             {
                 var client = _httpClientFactory.CreateClient("TelegramClient");
@@ -25,37 +32,48 @@ namespace Telegram.Bot.Services
                 }
 
                 // ResponseHeadersRead evita bufferziar toda resposta na memória
+                t_getasync_start = Stopwatch.GetTimestamp();
                 using var httpResponse = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+                t_getasync_end = Stopwatch.GetTimestamp();
+                
                 httpResponse.EnsureSuccessStatusCode();
 
+                // Stream read
+                t_stream_start = Stopwatch.GetTimestamp();
                 await using var contentStream = await httpResponse.Content.ReadAsStreamAsync();
+                t_stream_end = Stopwatch.GetTimestamp();
 
                 // Usa Source Generator para eliminar reflexão (30-50% CPU reduction em ARM32)
+                t_json_start = Stopwatch.GetTimestamp();
                 var response = await JsonSerializer.DeserializeAsync(
-                    contentStream, 
+                    contentStream,
                     TelegramJsonContext.Default.TelegramUpdatesResponse);
+                t_json_end = Stopwatch.GetTimestamp();
 
                 if (response?.Ok == true && response.Result != null && response.Result.Count > 0)
                 {
-                    return ParseUpdatesToMessages(response.Result);
+                    t_parse_start = Stopwatch.GetTimestamp();
+                    var result = ParseUpdatesToMessages(response.Result);
+                    t_parse_end = Stopwatch.GetTimestamp();
+                    
+                    // Log uma única vez ao final (timestamp não afeta latência)
+                    var total_ms = (Stopwatch.GetTimestamp() - globalStart) / (Stopwatch.Frequency / 1000.0);
+                    var getasync_ms = (t_getasync_end - t_getasync_start) / (Stopwatch.Frequency / 1000.0);
+                    var stream_ms = (t_stream_end - t_stream_start) / (Stopwatch.Frequency / 1000.0);
+                    var json_ms = (t_json_end - t_json_start) / (Stopwatch.Frequency / 1000.0);
+                    var parse_ms = (t_parse_end - t_parse_start) / (Stopwatch.Frequency / 1000.0);
+                    
+                    Console.WriteLine($"[TelegramBot]  GetAsync={getasync_ms:F0}ms | Stream={stream_ms:F0}ms | JSON={json_ms:F0}ms | Parse={parse_ms:F0}ms | Total={total_ms:F0}ms | Messages={result.Count}");
+                    
+                    return result;
                 }
 
                 return new List<GroupMessage>();
             }
-            catch (TaskCanceledException ex)
-            {
-                throw;
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw;
-            }
-            catch (HttpRequestException ex)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
+                var total_ms = (Stopwatch.GetTimestamp() - globalStart) / (Stopwatch.Frequency / 1000.0);
+                Console.WriteLine($"[TelegramBot]  ERROR: {ex.Message} (elapsed: {total_ms:F0}ms)");
                 throw;
             }
         }
