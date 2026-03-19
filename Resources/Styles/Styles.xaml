@@ -93,6 +93,18 @@
         <Setter Property="RefreshColor" Value="{StaticResource Primary}" />
     </Style>
 
+    <!-- TabBar Styles -->
+    <Style TargetType="TabBar" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{StaticResource SurfaceVariant}" />
+        <Setter Property="BarHeight" Value="56" />
+    </Style>
+
+    <Style TargetType="TabBarItem" ApplyToDerivedTypes="True">
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontFamily" Value="OpenSansSemiBold" />
+        <Setter Property="IconSize" Value="24" />
+    </Style>
+
     <!-- Page Root -->
     <Style TargetType="Page" ApplyToDerivedTypes="True">
         <Setter Property="Padding" Value="0"/>
