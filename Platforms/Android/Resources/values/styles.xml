@@ -1,0 +1,5 @@
+﻿<style name="Maui.SplashTheme" parent="Theme.SplashScreen">
+	<item name="windowSplashScreenBackground">@color/maui_splash_color</item>
+	<item name="windowSplashScreenAnimatedIcon">@drawable/maui_splash_image</item>
+	<item name="android:windowLightStatusBar">false</item>
+</style>
