@@ -128,4 +128,8 @@
         <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource Gray400}" />
     </Style>
 
+    <Style TargetType="FontImageSource">
+        <Setter Property="FontFamily" Value="MaterialIcons" />
+    </Style>
+
 </ResourceDictionary>

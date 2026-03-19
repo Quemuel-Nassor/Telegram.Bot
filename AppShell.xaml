@@ -9,14 +9,14 @@
 
     <TabBar>
         <ShellContent
-            Title="Mensagens"
-            ContentTemplate="{DataTemplate local:MainPage}"
-            Route="messages" />
+            Title="Configuração"
+            Icon="{FontImageSource Glyph='⚙️'}"
+            ContentTemplate="{DataTemplate local:ConfigPage}"/>
 
         <ShellContent
-            Title="Configuração"
-            ContentTemplate="{DataTemplate local:ConfigPage}"
-            Route="settings" />
+            Title="Mensagens"
+            Icon="{FontImageSource Glyph='💬'}"
+            ContentTemplate="{DataTemplate local:MainPage}"/>
     </TabBar>
 
 </Shell>
