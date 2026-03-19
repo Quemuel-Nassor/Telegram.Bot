@@ -2,7 +2,8 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net10.0-android</TargetFrameworks>
-		<RuntimeIdentifier>android-arm</RuntimeIdentifier>
+		<RuntimeIdentifiers Condition="'$(Configuration)' == 'Debug'">android-arm;android-x64</RuntimeIdentifiers>
+		<RuntimeIdentifiers Condition="'$(Configuration)' == 'Release'">android-arm</RuntimeIdentifiers>
 
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Telegram.Bot</RootNamespace>
